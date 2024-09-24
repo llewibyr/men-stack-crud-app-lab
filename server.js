@@ -1,9 +1,10 @@
 
 //Imports
 const express = require('express'); // library
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-const Item = require('./models/item');
+const Item = require('./models/Item');
 require('dotenv').config();
 
 // App + Configurations
@@ -17,7 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, ('views')));
 
 // Connecting to Mongoose
- mongoose.connect(process.env.MONGO_URI);
+ mongoose.connect(process.env.MONGODB_URI);
  mongoose.connection.on('connected', () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
  });
@@ -25,13 +26,16 @@ app.set('views', path.join(__dirname, ('views')));
     console.log(err);
  });
 
+ mongoose.connection.on('disconnected', () => {
+    console.log('disconnected from MongoDB');
+ });
 // Route(Calling)
 app.get('/items/new', (req, res) => {
     res.render('new');
 });
 
 // Test Route
-app.get('/test', (req, res) => {
+app.get('/landing', (req, res) => {
     res.render('landing');
 });
 
@@ -54,7 +58,7 @@ app.post('/items', async (req, res) => {
 app.get('/items', async (req, res) => {
     try {
         const items = await Item.find();
-        res.render('Item/index', { items});
+        res.render('items/index', {items});
     } catch (err) {
         res.status(500).send('Error getting items');
     }
@@ -91,9 +95,16 @@ if (!updateItem) {
   }
 });
 
-
-
-
+// Delete Route
+app.delete('/items/:id', async  (req, res) => {
+    try {
+        await Item.findByIdAndDelete(req.params.id);
+        res.redirect("/items");
+    } catch (err){
+        console.log(err);
+        res.redirect(`/`);
+    }
+});
 
 // Server Listener
 app.listen(3000, () => {

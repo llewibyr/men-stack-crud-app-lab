@@ -1,24 +1,12 @@
-<!-- views/index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Items List</title>
+    <title>Landing Page</title>
 </head>
 <body>
-    <h1>Items List</h1>
-    <ul>
-      <% items.forEach(item => { %>
-        <li>
-          <strong><%= item.name %></strong> - Quantity: <%= item.quantity %> - Description: <%= item.description %>
-          <a href="/items/<%= item._id %>/edit">Edit</a>
-          <form action="/items/<%= item._id %>?_method=DELETE" method="POST" style="display:inline;">
-            <button type="submit">Delete</button>
-          </form>
-        </li>
-      <% }) %>
-    </ul>
-    <a href="/items/new">Add a New Item</a>
+    <h1>Welcome to the Landing Page</h1>
+    <p>This is a landing page to test the route.</p>
 </body>
 </html>

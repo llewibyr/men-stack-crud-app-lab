@@ -13,6 +13,8 @@
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "method-override": "^3.0.0",
+    "mongodb": "^6.9.0",
+    "mongood": "^0.0.5",
     "mongoose": "^8.6.2"
   },
   "keywords": [],
