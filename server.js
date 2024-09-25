@@ -70,8 +70,11 @@ app.use(methodOverride('_method'));
 
 app.get('/items/:id/edit', async(req, res) => {
     try{
-        const item = await item.findById(req.params.id);
-        res.render('edit', {item});
+        const item = await Item.findById(req.params.id);
+        if (!item) {
+            return res.status(404).send('Item not found');
+        }
+        res.render('items/edit', { item });
     } catch (err) {
         res.status(500).send('Error getting item');
     }
